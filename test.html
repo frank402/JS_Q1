@@ -1,0 +1,46 @@
+<html>
+
+<head>
+  <title>操作 CSS</title>
+  <!-- CSS 風格並不包含在教學裡 -->
+  <style>
+    .button {
+      background: tomato;
+      color: white;
+      text-align: center;
+      font-size: 20px;
+    }
+  </style>
+
+  <script>
+    "use strict";
+
+    function applyStyle() {
+      var element = document.getElementById("button1");
+      element.style.color = "tomato";
+      element.style.fontWeight = "bold";
+      element.style.background = "white";
+    }  
+    var state = false;
+
+    function toggleClass() {
+      var element = document.getElementById("button2");
+      state = !state;
+      state ? element.classList.add("button") : element.classList.remove("button");
+      element.textContent = state ? "使用 classList.remove" : "使用 classList.add";
+    }
+  </script>
+</head>
+
+<body>
+  <div style="margin:0px auto; width:400px">
+    <button id="button1" onclick="applyStyle()">使用 style</button>
+
+    <button id="button2" onclick="toggleClass()">使用 classList.add</button>
+  </div>
+  <br>
+  <div id="container" class="box"> rewre </div>
+  <br>
+</body>
+
+</html>
