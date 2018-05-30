@@ -1,0 +1,89 @@
+<html>
+  <head>
+    <title>事件驅動 - (3) 實作：表單驗證</title>
+    <script>
+    "use strict";
+    function validate() {
+      var nric = document.getElementById("nric");
+      var code = nric.value;
+      var char = code[0];
+        // 額外查詢縣市的 function
+        var city = findCity(char);
+      if(code == ""){
+        alert("身分證欄位不能空白！");
+        return;
+      } else if( !isNaN(code)){
+        alert("身分證欄位不是全都數字吧！");
+        return;
+      } else if( code.length != 10 ) {
+        alert("你輸入的身分證字號長度不正確！");
+        return;
+      }
+      else if(!city){
+        alert("縣市錯誤，這不是一個正確的身分證字號！");
+        return;
+      }
+      else if(code[1]=='1'){ 
+      document.getElementById("result").innerHTML = "某男通過驗證";
+      return;
+    }
+      else if(code[1]=='2'){ 
+      document.getElementById("result").innerHTML = "某女通過驗證";
+      return;
+    }
+
+       document.getElementById("result").innerHTML = "身分證錯誤";
+    }
+    // 額外查詢縣市的功能
+    function findCity( char ) {
+      char = char.toLowerCase();
+      switch(char) {
+        case "a": return "臺北市";
+        case "b": return "臺中市";
+        case "c": return "基隆市";
+        case "d": return "臺南市";
+        case "e": return "高雄市";
+        case "f": return "新北市";
+        case "g": return "宜蘭縣";
+        case "h": return "桃園縣";
+        case "i": return "嘉義市";
+        case "j": return "新竹縣";
+        case "k": return "苗栗縣";
+        case "l": return "臺中縣";
+        case "m": return "南投縣";
+        case "n": return "彰化縣";
+        case "o": return "新竹市";
+        case "p": return "雲林縣";
+        case "q": return "嘉義縣";
+        case "r": return "臺南縣";
+        case "s": return "高雄縣";
+        case "t": return "屏東縣";
+        case "u": return "花蓮縣";
+        case "v": return "臺東縣";
+        case "w": return "金門縣";
+        case "x": return "澎湖縣";
+        case "y": return "陽明山";
+        case "z": return "連江縣";
+        default: return false;
+      }
+    }
+    </script>
+  </head>
+  <body>    
+    <div style="margin:0px auto;padding-left: 40px; width:720px">
+      <form id="form" action="">
+        <table>
+          <tr>
+            <td><label>身分證字號</label></td>
+            <td><input type="text" id="nric" ></td>
+          </tr>
+        <tr><td></td><td>
+         <input type="button" value="驗證" onclick="validate()" />
+
+        </td></tr>
+        </table>
+      </form>
+      <p id = "result"></p>
+    </div>
+  </body>
+</html>
