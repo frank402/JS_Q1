@@ -12,6 +12,10 @@ class BaseCharacter {
     }
     character.getHurt(damage);
   }
+  //恢復HP
+  getheal(heal) {
+    this.hp = this.hp + heal;
+}
   getHurt(damage) {
     var _this = this;
     var i = 1;
@@ -70,6 +74,17 @@ class Hero extends BaseCharacter {
   getHurt(damage) {
     super.getHurt(damage);
     this.updateHtml(this.hpElement, this.hurtElement);
+  }
+  getheal(){
+      if(this.hp >= 100){
+          this.hp = this.maxHp;
+      }
+      else{
+        var heal = 30;
+        super.getheal(heal);
+      }
+
+   this.updateHtml(this.hpElement, this.hurtElement);
   }
 }
 
@@ -138,16 +153,30 @@ function heroAttack() {
         finish();
     }
   }, 1100);
+}
+//點擊恢復後開始的動作
+function heroHeal(){
+    document.getElementsByClassName("skill-block")[0].style.display = "none";
+    hero.getheal();
 
 }
-
+//取得發動攻擊按鈕的 element
 function addSkillEvent() {
   var skill = document.getElementById("skill");
   skill.onclick = function () {
     heroAttack();
   }
 }
+
+//取得發動恢復按鈕的 element
+function addhealEvent() {
+    var heal = document.getElementById("heal");
+    heal.onclick = function () {
+        heroHeal(); 
+    }
+  }
 addSkillEvent();
+addhealEvent();
 
 function finish() {
     var dialog = document.getElementById("dialog")
