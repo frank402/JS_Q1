@@ -105,7 +105,7 @@ function endTurn() {
   rounds--;
   document.getElementById("round-num").textContent = rounds;
   if (rounds < 1) {
-
+    finish();
   }
 }
 
@@ -128,11 +128,15 @@ function heroAttack() {
         monster.attack(hero);
         monster.element.classList.remove("attacking");
         endTurn();
-        if (hero.alive == false) {} else {
+        if (hero.alive == false) {
+            finish();
+        } else {
           document.getElementsByClassName("skill-block")[0].style.display = "block";
         }
       }, 500);
-    } else {}
+    } else {
+        finish();
+    }
   }, 1100);
 
 }
@@ -144,3 +148,13 @@ function addSkillEvent() {
   }
 }
 addSkillEvent();
+
+function finish() {
+    var dialog = document.getElementById("dialog")
+    dialog.style.display = "block";
+    if (monster.alive == false) {
+      dialog.classList.add("win");
+    } else {
+      dialog.classList.add("lose");
+    }
+  }
