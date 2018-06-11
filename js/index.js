@@ -14,8 +14,28 @@ class BaseCharacter {
   }
   //恢復HP
   getheal(heal) {
+    var _this = this;
+    var i = 1;
     this.hp = this.hp + heal;
+    _this.id = setInterval(function() {
+  
+      if (i >= 1 && i < 8) {
+        _this.element.getElementsByClassName("effect-image")[0].style.display = "block";
+        _this.element.getElementsByClassName("heal-text")[0].classList.add("healed");
+        _this.element.getElementsByClassName("heal-text")[0].textContent = heal;
+        i++;
+      }
+      else{
+        _this.element.getElementsByClassName("effect-image")[0].style.display = "none";
+        _this.element.getElementsByClassName("heal-text")[0].classList.remove("healed");
+        _this.element.getElementsByClassName("heal-text")[0].textContent = "";
+        clearInterval(_this.id);
+      }
+      _this.element.getElementsByClassName("effect-image")[0].src = 'images/effect/heal/'+ i +'.png';
+      
+    }, 50);  
 }
+
   getHurt(damage) {
     var _this = this;
     var i = 1;
@@ -25,7 +45,7 @@ class BaseCharacter {
     }
 
     _this.id = setInterval(function() {
-    
+  
       if (i == 1) {
           _this.element.getElementsByClassName("effect-image")[0].style.display = "block";
           _this.element.getElementsByClassName("hurt-text")[0].classList.add("attacked");
@@ -34,7 +54,7 @@ class BaseCharacter {
         
         _this.element.getElementsByClassName("effect-image")[0].src = 'images/effect/blade/'+ i +'.png';
         i++;
-        console.log(_this.id);
+        
         if (i > 8) {
           _this.element.getElementsByClassName("effect-image")[0].style.display = "none";
           _this.element.getElementsByClassName("hurt-text")[0].classList.remove("attacked");
@@ -43,6 +63,7 @@ class BaseCharacter {
         }
     }, 50);
   }
+
   die() {
     this.alive = false;
   }
@@ -75,12 +96,13 @@ class Hero extends BaseCharacter {
     super.getHurt(damage);
     this.updateHtml(this.hpElement, this.hurtElement);
   }
-  getheal(){
+  getheal(heal){
       if(this.hp >= 100){
-          this.hp = this.maxHp;
+          heal = this.maxHp - this.hpElement.textContent ;
+          super.getheal(heal);
       }
       else{
-        var heal = 30;
+        heal = 30;
         super.getheal(heal);
       }
 
@@ -159,7 +181,7 @@ function heroHeal(){
     document.getElementsByClassName("skill-block")[0].style.display = "none";
     
     setTimeout(function () {
-      hero.getheal();
+      hero.getheal(heal);
     }, 100);
 
     setTimeout(function () {
