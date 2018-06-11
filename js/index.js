@@ -17,24 +17,25 @@ class BaseCharacter {
     var _this = this;
     var i = 1;
     this.hp = this.hp + heal;
-    _this.id = setInterval(function() {
-  
-      if (i >= 1 && i < 8) {
+    _this.id = setInterval(function () {
+
+      if (i == 1) {
         _this.element.getElementsByClassName("effect-image")[0].style.display = "block";
         _this.element.getElementsByClassName("heal-text")[0].classList.add("healed");
         _this.element.getElementsByClassName("heal-text")[0].textContent = heal;
-        i++;
       }
-      else{
+      _this.element.getElementsByClassName("effect-image")[0].src = 'images/effect/heal/' + i + '.png';
+      i++;
+      if (i > 8) {
         _this.element.getElementsByClassName("effect-image")[0].style.display = "none";
         _this.element.getElementsByClassName("heal-text")[0].classList.remove("healed");
         _this.element.getElementsByClassName("heal-text")[0].textContent = "";
         clearInterval(_this.id);
       }
-      _this.element.getElementsByClassName("effect-image")[0].src = 'images/effect/heal/'+ i +'.png';
-      
-    }, 50);  
-}
+
+
+    }, 50);
+  }
 
   getHurt(damage) {
     var _this = this;
@@ -44,23 +45,23 @@ class BaseCharacter {
       this.die();
     }
 
-    _this.id = setInterval(function() {
-  
+    _this.id = setInterval(function () {
+
       if (i == 1) {
-          _this.element.getElementsByClassName("effect-image")[0].style.display = "block";
-          _this.element.getElementsByClassName("hurt-text")[0].classList.add("attacked");
-          _this.element.getElementsByClassName("hurt-text")[0].textContent = damage;
-        }
-        
-        _this.element.getElementsByClassName("effect-image")[0].src = 'images/effect/blade/'+ i +'.png';
-        i++;
-        
-        if (i > 8) {
-          _this.element.getElementsByClassName("effect-image")[0].style.display = "none";
-          _this.element.getElementsByClassName("hurt-text")[0].classList.remove("attacked");
-          _this.element.getElementsByClassName("hurt-text")[0].textContent = "";
-          clearInterval(_this.id);
-        }
+        _this.element.getElementsByClassName("effect-image")[0].style.display = "block";
+        _this.element.getElementsByClassName("hurt-text")[0].classList.add("attacked");
+        _this.element.getElementsByClassName("hurt-text")[0].textContent = damage;
+      }
+
+      _this.element.getElementsByClassName("effect-image")[0].src = 'images/effect/blade/' + i + '.png';
+      i++;
+
+      if (i > 8) {
+        _this.element.getElementsByClassName("effect-image")[0].style.display = "none";
+        _this.element.getElementsByClassName("hurt-text")[0].classList.remove("attacked");
+        _this.element.getElementsByClassName("hurt-text")[0].textContent = "";
+        clearInterval(_this.id);
+      }
     }, 50);
   }
 
@@ -96,17 +97,16 @@ class Hero extends BaseCharacter {
     super.getHurt(damage);
     this.updateHtml(this.hpElement, this.hurtElement);
   }
-  getheal(heal){
-      if(this.hp >= 100){
-          heal = this.maxHp - this.hpElement.textContent ;
-          super.getheal(heal);
-      }
-      else{
-        heal = 30;
-        super.getheal(heal);
-      }
+  getheal(heal) {
+    if (this.hp >= 100) {
+      heal = this.maxHp - this.hpElement.textContent;
+      super.getheal(heal);
+    } else {
+      heal = 30;
+      super.getheal(heal);
+    }
 
-   this.updateHtml(this.hpElement, this.hurtElement);
+    this.updateHtml(this.hpElement, this.hurtElement);
   }
 }
 
@@ -166,41 +166,41 @@ function heroAttack() {
         monster.element.classList.remove("attacking");
         endTurn();
         if (hero.alive == false) {
-            finish();
+          finish();
         } else {
           document.getElementsByClassName("skill-block")[0].style.display = "block";
         }
       }, 500);
     } else {
-        finish();
+      finish();
     }
   }, 1100);
 }
 //點擊恢復後開始的動作
-function heroHeal(){
-    document.getElementsByClassName("skill-block")[0].style.display = "none";
-    
-    setTimeout(function () {
-      hero.getheal(heal);
-    }, 100);
+function heroHeal() {
+  document.getElementsByClassName("skill-block")[0].style.display = "none";
 
-    setTimeout(function () {
-      if (monster.alive) {
-        monster.element.classList.add("attacking")
-        setTimeout(function () {
-          monster.attack(hero);
-          monster.element.classList.remove("attacking");
-          endTurn();
-          if (hero.alive == false) {
-              finish();
-          } else {
-            document.getElementsByClassName("skill-block")[0].style.display = "block";
-          }
-        }, 500);
-      } else {
+  setTimeout(function () {
+    hero.getheal(heal);
+  }, 100);
+
+  setTimeout(function () {
+    if (monster.alive) {
+      monster.element.classList.add("attacking")
+      setTimeout(function () {
+        monster.attack(hero);
+        monster.element.classList.remove("attacking");
+        endTurn();
+        if (hero.alive == false) {
           finish();
-      }
-    }, 500);
+        } else {
+          document.getElementsByClassName("skill-block")[0].style.display = "block";
+        }
+      }, 500);
+    } else {
+      finish();
+    }
+  }, 500);
 
 }
 //取得發動攻擊按鈕的 element
@@ -213,20 +213,20 @@ function addSkillEvent() {
 
 //取得發動恢復按鈕的 element
 function addhealEvent() {
-    var heal = document.getElementById("heal");
-    heal.onclick = function () {
-        heroHeal(); 
-    }
+  var heal = document.getElementById("heal");
+  heal.onclick = function () {
+    heroHeal();
   }
+}
 addSkillEvent();
 addhealEvent();
 
 function finish() {
-    var dialog = document.getElementById("dialog")
-    dialog.style.display = "block";
-    if (monster.alive == false) {
-      dialog.classList.add("win");
-    } else {
-      dialog.classList.add("lose");
-    }
+  var dialog = document.getElementById("dialog")
+  dialog.style.display = "block";
+  if (monster.alive == false) {
+    dialog.classList.add("win");
+  } else {
+    dialog.classList.add("lose");
   }
+}
