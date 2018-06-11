@@ -157,7 +157,28 @@ function heroAttack() {
 //點擊恢復後開始的動作
 function heroHeal(){
     document.getElementsByClassName("skill-block")[0].style.display = "none";
-    hero.getheal();
+    
+    setTimeout(function () {
+      hero.getheal();
+    }, 100);
+
+    setTimeout(function () {
+      if (monster.alive) {
+        monster.element.classList.add("attacking")
+        setTimeout(function () {
+          monster.attack(hero);
+          monster.element.classList.remove("attacking");
+          endTurn();
+          if (hero.alive == false) {
+              finish();
+          } else {
+            document.getElementsByClassName("skill-block")[0].style.display = "block";
+          }
+        }, 500);
+      } else {
+          finish();
+      }
+    }, 500);
 
 }
 //取得發動攻擊按鈕的 element
