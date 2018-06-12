@@ -230,3 +230,15 @@ function finish() {
     dialog.classList.add("lose");
   }
 }
+
+//新增鍵盤事件 A:攻擊，D恢復血量
+document.onkeyup = function(event) {
+    var key = String.fromCharCode(event.keyCode);
+    if (key == "A") {
+       heroAttack();
+    }
+    else if(key == "D"){
+        heroHeal();
+    } 
+  }
+
